@@ -1,5 +1,4 @@
 #ejercicio 1.2 de la semana 2
-import json
 import re
 
 
