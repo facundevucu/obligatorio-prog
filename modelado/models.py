@@ -1,3 +1,4 @@
+#ejercicio 1.2 de la semana 2
 import json
 import re
 
@@ -33,8 +34,6 @@ class Aeronave:
 
 
 class Aeropuerto:
-    """Representa un aeropuerto con validación de código ICAO."""
-
     def __init__(self, nombre, codigo_iata, codigo_icao, pais):
         self.nombre = nombre
         self.codigo_iata = codigo_iata
@@ -42,16 +41,14 @@ class Aeropuerto:
         self.pais = pais
 
     def _icao_valido(self, codigo):
-        """Valida código ICAO compuesto por 4 letras."""
         return bool(re.match(r"^[A-Z]{4}$", str(codigo)))
+        #regex : ^ al inicio, 4 letras mayusculas y $ al final
 
     def __str__(self):
         return f"{self.nombre} ({self.codigo_icao}) - {self.pais}"
 
 
 class Vuelo:
-    """Representa un vuelo básico."""
-
     def __init__(self, numero_vuelo, aerolinea, aeronave, salida, llegada, estado):
         self.numero_vuelo = numero_vuelo if self._numero_vuelo_valido(numero_vuelo) else "Código inválido"
         self.aerolinea = aerolinea
@@ -61,7 +58,6 @@ class Vuelo:
         self.estado = estado
 
     def _numero_vuelo_valido(self, numero):
-        """Valida formato: 2-3 letras/números + 1-4 dígitos (ej: LA1234)."""
         return bool(re.match(r"^[A-Z0-9]{2,3}\d{1,4}$", str(numero)))
 
     def mostrar_info(self):
@@ -73,53 +69,4 @@ class Vuelo:
         print("-" * 40)
 
 
-
-with open("vuelos_prueba.json", "r", encoding="utf-8") as archivo:
-    datos = json.load(archivo)
-
-datos_vuelos = datos.get("data", [])
-vuelos = []
-
-for vuelo_json in datos_vuelos:
-    datos_aerolinea = vuelo_json.get("airline", {})
-    datos_aeronave = vuelo_json.get("aircraft", {})
-    datos_salida = vuelo_json.get("departure", {})
-    datos_llegada = vuelo_json.get("arrival", {})
-
-    aerolinea = Aerolinea(
-        datos_aerolinea.get("name", "Desconocida"),
-        datos_aerolinea.get("iata"),
-        datos_aerolinea.get("icao")
-    )
-
-    aeronave = Aeronave(
-        datos_aeronave.get("registration", "N/A"),
-        datos_aeronave.get("iata", "N/A"),
-        datos_aeronave.get("icao", "N/A")
-    )
-
-    salida = Aeropuerto(
-        datos_salida.get("airport", "N/A"),
-        datos_salida.get("iata", "N/A"),
-        datos_salida.get("icao", "N/A"),
-        datos_salida.get("country", "N/A")
-    )
-
-    llegada = Aeropuerto(
-        datos_llegada.get("airport", "N/A"),
-        datos_llegada.get("iata", "N/A"),
-        datos_llegada.get("icao", "N/A"),
-        datos_llegada.get("country", "N/A")
-    )
-
-    vuelo = Vuelo(
-        numero_vuelo=vuelo_json.get("flight", {}).get("iata", "Sin número"),
-        aerolinea=aerolinea,
-        aeronave=aeronave,
-        salida=salida,
-        llegada=llegada,
-        estado=vuelo_json.get("flight_status", "desconocido")
-    )
-
-    vuelos.append(vuelo)
 
