@@ -1,7 +1,6 @@
 #ejercicio 1.2 de la semana 2
 import re
 
-
 class Aerolinea:
     def __init__(self, nombre, codigo_iata, codigo_icao):
         self.nombre = nombre

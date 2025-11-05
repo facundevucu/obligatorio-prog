@@ -1,4 +1,4 @@
-# ejercicio 1.3 de la semana 2
+#ejercicio 1.3 de la semana 2
 
 from models import Aerolinea, Aeronave, Aeropuerto, Vuelo
 import json
